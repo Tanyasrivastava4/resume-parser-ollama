@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "projects_schema.json",
+  "title": "Projects Module Schema",
+  "description": "Structure to be produced by a Projects Extractor (designed in Milestone T3/Phase 1 -- the extractor exists as scaffolding, has NOT been wired into pipeline/parser_pipeline.py, and has NOT been validated against any real Ollama call in this milestone) -- a single resume-section module, not the full resume schema. Field set is evidence-derived from direct inspection of all 7/22 corpus resumes containing a dedicated Projects section, including the resume-001 case Milestone T2/Phase 0 traced as a real Work-Experience misrouting failure (docs/MILESTONE_T3_PHASE1_SCHEMA_FOUNDATION.md Part B), not assumed from a generic resume-schema template.",
+  "type": "object",
+  "properties": {
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": ["string", "null"],
+            "description": "REQUIRED-shape field. Real evidence: 100% of examined project-bearing resumes (7/7) have a clear project title/heading."
+          },
+          "description": {
+            "type": ["string", "null"],
+            "description": "REQUIRED-shape field. Real evidence: a short tagline/summary line is present in most examples (e.g. 'Sustainable Women's Activewear Brand - Headless Shopify Solution'); where absent, the first highlight bullet effectively serves this role."
+          },
+          "role": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL. Real evidence: present in ~50% of examined resumes as a preceding tag/heading (e.g. 'Full-Stack', 'Frontend Developer (Freelance)'); entirely absent for others (e.g. resume 016's two projects have no role label at all)."
+          },
+          "start_date": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL. Real evidence: present in ~50% of examined resumes (e.g. resume 001's 'Aug 2023 - Oct 2025'); absent for others (e.g. resume 016, Ankush Mehta)."
+          },
+          "end_date": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL. Same evidence basis as start_date."
+          },
+          "highlights": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true,
+            "description": "REQUIRED-shape (array, may be empty). Real evidence: bullet-point detail lines are present for effectively every examined project, mirroring work_experience's own established `responsibilities` field exactly, for representational consistency."
+          },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true,
+            "description": "REQUIRED-shape (array, may be empty). Real evidence: technology names appear in prose across all examined project entries (e.g. 'Next.js 15 & React 19', 'React.js and Tailwind CSS'), mirroring work_experience's own established `technologies` field. Per this milestone's Part C relationship design, these values MUST NOT be automatically copied into the canonical `skills` array by any assembler/merger logic -- see validators/misrouting_detector.py and the milestone report's explicit prohibition."
+          },
+          "url": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL, inconsistent evidence. Real evidence: recoverable in 1/7 examined resumes (embedded directly in a project heading, e.g. '(https://senraa.com/)'); a bare 'Project Link' label with no recoverable value was found in another (consistent with this project's own already-documented PDF-hyperlink-annotation loss, V3.7) -- absent for the remainder."
+          }
+        },
+        "required": ["name", "description", "role", "start_date", "end_date", "highlights", "technologies", "url"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["projects"],
+  "additionalProperties": false
+}

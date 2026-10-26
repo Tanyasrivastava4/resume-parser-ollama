@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "personal_information_schema.json",
+  "title": "Personal Information Module Schema",
+  "description": "Structure produced by the Personal Information Extractor (Milestone 14.1) — a single resume-section module, not the full resume schema.",
+  "type": "object",
+  "properties": {
+    "personal_information": {
+      "type": "object",
+      "properties": {
+        "full_name": { "type": ["string", "null"] },
+        "first_name": { "type": ["string", "null"] },
+        "last_name": { "type": ["string", "null"] },
+        "current_location": { "type": ["string", "null"] }
+      },
+      "required": ["full_name", "first_name", "last_name", "current_location"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["personal_information"],
+  "additionalProperties": false
+}

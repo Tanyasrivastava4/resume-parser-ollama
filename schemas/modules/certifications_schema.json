@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "certifications_schema.json",
+  "title": "Certifications Module Schema",
+  "description": "Structure to be produced by a Certifications Extractor (designed in Milestone T3/Phase 1 -- the extractor exists as scaffolding, has NOT been wired into pipeline/parser_pipeline.py, and has NOT been validated against any real Ollama call in this milestone) -- a single resume-section module, not the full resume schema. Field set is evidence-derived from direct inspection of all 12/22 corpus resumes containing certification content (docs/MILESTONE_T3_PHASE1_SCHEMA_FOUNDATION.md Part B), not assumed from a generic resume-schema template.",
+  "type": "object",
+  "properties": {
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": ["string", "null"],
+            "description": "REQUIRED-shape field (always present as a key; value may be null only for a malformed/unparseable entry). Real evidence: 100% of examined certification-content resumes (12/12) have a clear certification title. Any embedded credential code (e.g. 'AZ-305') stays part of this string -- see credential_id's own NOT_JUSTIFIED rationale in the milestone report."
+          },
+          "issuing_organization": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL. Real evidence: present in a recoverable form in ~60% of examined resumes, but format varies -- sometimes a separate en-dash suffix ('Lean Six Sigma Green Belt – KPMG'), sometimes embedded in the name itself ('Microsoft Certified: ...'), sometimes a learning platform ('IBM Certified Data Analysis with Python — Coursera')."
+          },
+          "issue_date": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL. Real evidence: present in ~30% of examined resumes (e.g. a course period 'Jan 2025 – Jun 2025', or a validity-range prefix). Frequently absent entirely."
+          },
+          "expiry_date": {
+            "type": ["string", "null"],
+            "description": "OPTIONAL, weak evidence. Found in only 1/22 resumes, as an ambiguous range suffix (e.g. 'Mar. 2025-2026') whose issue-vs-expiry interpretation was not independently confirmed in this milestone. Included because the concept is real and low-cost to represent as null-by-default, not because it is well-evidenced."
+          }
+        },
+        "required": ["name", "issuing_organization", "issue_date", "expiry_date"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["certifications"],
+  "additionalProperties": false
+}

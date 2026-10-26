@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contact_information_schema.json",
+  "title": "Contact Information Module Schema",
+  "description": "Structure produced by the Contact Information Extractor (Milestone 14.3) — a single resume-section module, not the full resume schema.",
+  "type": "object",
+  "properties": {
+    "contact_information": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "phone": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "linkedin": { "type": ["string", "null"] },
+        "github": { "type": ["string", "null"] },
+        "portfolio": { "type": ["string", "null"] }
+      },
+      "required": ["email", "phone", "linkedin", "github", "portfolio"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["contact_information"],
+  "additionalProperties": false
+}

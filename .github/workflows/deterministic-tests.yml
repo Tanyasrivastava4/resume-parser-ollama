@@ -1,0 +1,67 @@
+# Deterministic test gate (remediation item R-02, 2026-10-17).
+#
+# Runs the model-free test suite on every push and pull request. Two
+# categories are intentionally NOT exercised here and stay manual:
+#   - `-m integration` tests, which need a local Ollama server with
+#     qwen3:1.7b and qwen2.5vl:3b pulled (run them locally before merging
+#     any change under services/, pipeline/ or prompts/);
+#   - `local_data`-marked tests, which read git-ignored run artifacts
+#     (output/markdown etc.) and therefore skip themselves on a fresh
+#     checkout -- see tests/conftest.py.
+# The job summary records pass/fail/skip counts and the commit SHA so a
+# reviewer can quote a current, reproducible number instead of a
+# historical snapshot.
+name: deterministic-tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: requirements-lock.txt
+
+      - name: Install locked dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-lock.txt
+
+      - name: Run deterministic suite
+        # `shell: bash` makes GitHub run this with `bash -eo pipefail`; without
+        # it the default `bash -e` returns tee's exit status, so a failing or
+        # erroring pytest still reported success (observed on run 39030271542:
+        # "3 errors" yet green). The gate is only a gate with pipefail.
+        shell: bash
+        run: |
+          python -m pytest tests/ -q -m "not integration" -p no:cacheprovider \
+            --junitxml=pytest-report.xml -rs | tee pytest-output.txt
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Deterministic test suite"
+            echo ""
+            echo "- commit: \`${GITHUB_SHA}\`"
+            echo "- python: \`$(python --version)\`"
+            echo "- result: \`$(tail -n 1 pytest-output.txt)\`"
+            echo ""
+            echo "Integration (live-model) tests are not run here; run \`pytest tests/ -m integration\` locally with Ollama."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pytest-report-${{ github.sha }}
+          path: |
+            pytest-report.xml
+            pytest-output.txt

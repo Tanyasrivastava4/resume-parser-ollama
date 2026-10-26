@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "education_schema.json",
+  "title": "Education Module Schema",
+  "description": "Structure to be produced by the Education Extractor (designed in Milestone 18.1, implemented in Milestone 18.2) — a single resume-section module, not the full resume schema.",
+  "type": "object",
+  "properties": {
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "institution": { "type": ["string", "null"] },
+          "degree": { "type": ["string", "null"] },
+          "specialization": { "type": ["string", "null"] },
+          "location": { "type": ["string", "null"] },
+          "start_date": { "type": ["string", "null"] },
+          "end_date": { "type": ["string", "null"] },
+          "currently_studying": { "type": "boolean" },
+          "grade": { "type": ["string", "null"] },
+          "description": { "type": ["string", "null"] }
+        },
+        "required": [
+          "institution",
+          "degree",
+          "specialization",
+          "location",
+          "start_date",
+          "end_date",
+          "currently_studying",
+          "grade",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["education"],
+  "additionalProperties": false
+}

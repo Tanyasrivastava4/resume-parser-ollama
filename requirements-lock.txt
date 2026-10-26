@@ -1,0 +1,45 @@
+# requirements-lock.txt
+#
+# Fully pinned, transitively resolved dependency set for this project,
+# generated 2026-10-17 (remediation item R-02) from a CLEAN Python 3.11.15
+# virtual environment with `pip install -r requirements.txt` followed by
+# `pip freeze`. requirements.txt remains the human-edited, direct-dependency
+# list; this file is what CI and fresh installs use so that two machines
+# resolve to byte-identical package versions.
+#
+# Regenerate (never hand-edit) after changing requirements.txt:
+#   python3.11 -m venv /tmp/lockenv && /tmp/lockenv/bin/pip install -r requirements.txt \
+#     && /tmp/lockenv/bin/pip freeze > requirements-lock.txt   (then restore this header)
+#
+# Note: the development machine's .venv additionally contained fastapi,
+# uvicorn, starlette, pandas, pillow, click and annotated-doc. None of those
+# is imported by any module under services/, pipeline/, evaluation/,
+# validators/ or scripts/, so they are deliberately NOT part of the lock.
+annotated-types==0.8.0
+anyio==4.15.1
+attrs==26.1.0
+certifi==2026.7.22
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.20
+iniconfig==2.3.1
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+numpy==2.4.6
+ollama==0.6.2
+packaging==26.3
+pluggy==1.7.0
+pydantic==2.14.1
+pydantic_core==2.50.1
+pymupdf==1.28.0
+pytest==8.3.3
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
+PyYAML==6.0.3
+referencing==0.37.0
+rpds-py==2026.9.1
+six==1.17.0
+tqdm==4.70.0
+typing-inspection==0.4.4
+typing_extensions==4.16.0

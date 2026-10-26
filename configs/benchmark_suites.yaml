@@ -1,0 +1,72 @@
+# configs/benchmark_suites.yaml
+#
+# Milestone 22.4: Fast Benchmark Infrastructure.
+#
+# Named subsets of the 23-resume ground-truth dataset, so a developer
+# iterating on a prompt/schema/validator change doesn't have to run the
+# full ~2-3 hour, 23-resume ParserPipeline/ParserEvaluator pass just to
+# see a signal.
+#
+# Each key is a suite name, used as `--suite <name>` by
+# scripts/run_parser_pipeline.py and scripts/run_parser_evaluation.py.
+# Each value is a list of resume names — the markdown filename's stem,
+# i.e. exactly what Path(row["Markdown"]).stem produces for a row in
+# benchmark/ground_truth/json/mapping.csv. Names are resolved against
+# mapping.csv at run time, never hardcoded elsewhere; a name listed here
+# that mapping.csv doesn't recognize is a configuration error the tools
+# raise on, not a silent skip.
+#
+# The one exception is "full", whose value is the literal single-element
+# list `["*"]` — a wildcard meaning "every resume in mapping.csv,"
+# equivalent to not passing --suite at all.
+
+# Quickest possible signal: one resume of each shape already known to be
+# informative from prior milestones — an empty-skills document (JD_Centre),
+# a clean flat comma-list (Chirag Sharma), the largest/most deeply nested
+# skills section in the dataset (Kishan Yadav), a small exact-match case
+# (Krishankant Soni), and a subsection/nested-language case (CA Ishika
+# Sharma). Intended for a same-day "did I break anything obvious" check.
+smoke:
+  - JD_Centre Head - Tele Collections_SMFG
+  - Chirag Sharma_AVP_Intileo
+  - Kishan Yadav_Data Scientist_Intileo
+  - Krishankant Soni_GAD-UK_GT-Intileo
+  - CA Ishika Sharma Resume
+
+# Broader coverage for validating a prompt/schema change before a full
+# run: the smoke suite plus every resume Milestones 22.1-22.3's skills
+# audits found to be a distinct, individually-documented failure shape
+# (cross-section contamination, long/messy multi-category sections,
+# coursework-phrased in-section bullets, category-label-swallows-list).
+regression:
+  - JD_Centre Head - Tele Collections_SMFG
+  - Chirag Sharma_AVP_Intileo
+  - Kishan Yadav_Data Scientist_Intileo
+  - Krishankant Soni_GAD-UK_GT-Intileo
+  - CA Ishika Sharma Resume
+  - Rima_Karmakar_CV
+  - Arjun Sharma_Data Architect_GT
+  - PRAGNESH S. SHAH_Sr. Associate-IT Ops_Intileo
+  - Monika Yathamshetti_AM-GAD_GT
+  - Bhavita Jain_GAD_GT
+
+# Milestone 22.5's targeted culprit/regression subset for the SKV-001 +
+# SKV-002 pre-schema duplicate-removal hook (docs/SKILLS_VALIDATION_DESIGN.md
+# §15), added when that hook was implemented in Milestone 22.6. Kishan
+# Yadav is the only resume that has actually triggered the uniqueItems
+# schema failure this rule exists to fix; Ankush Mehta, Anushka, and
+# Ritika Jain are currently exact skills matches with no known duplicate
+# and serve as regression sentinels (if their score moves at all, the
+# hook touched more than intended); Chirag Sharma is a negative control
+# confirming this milestone correctly did NOT attempt the comma-splitting
+# fix docs/SKILLS_VALIDATION_DESIGN.md §2 found unsafe.
+skills_validator_phase1:
+  - Kishan Yadav_Data Scientist_Intileo
+  - Ankush Mehta_Data Scientist_Intileo
+  - Anushka_ (1)
+  - Ritika Jain_AM2-Global Audit Delivery-Australia Region_GT-Intileo
+  - Chirag Sharma_AVP_Intileo
+
+# Every resume in mapping.csv — identical to omitting --suite.
+full:
+  - "*"

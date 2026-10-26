@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "resume_schema_v1.json",
+  "title": "Resume Schema v1",
+  "description": "Structure produced by ParserPipeline's JSON Draft Generator and module extractors. Extended in Milestone 17.3 to include work_experience (see schemas/modules/work_experience_schema.json for that module's own scoped schema), in Milestone 18.3 to include education (see schemas/modules/education_schema.json), and in Milestone T3/Phase 1 to include OPTIONAL certifications/projects keys (see schemas/modules/certifications_schema.json and schemas/modules/projects_schema.json) -- deliberately NOT added to this schema's own \"required\" list, so every existing merged_json object produced before T3/Phase 1 (which never populated these keys) remains valid without any re-validation or migration; later milestones may extend it further.",
+  "type": "object",
+  "properties": {
+    "personal_information": {
+      "type": "object",
+      "properties": {
+        "full_name": { "type": ["string", "null"] },
+        "first_name": { "type": ["string", "null"] },
+        "last_name": { "type": ["string", "null"] },
+        "current_location": { "type": ["string", "null"] }
+      },
+      "required": ["full_name", "first_name", "last_name", "current_location"],
+      "additionalProperties": false
+    },
+    "contact_information": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "phone": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "linkedin": { "type": ["string", "null"] },
+        "github": { "type": ["string", "null"] },
+        "portfolio": { "type": ["string", "null"] }
+      },
+      "required": ["email", "phone", "linkedin", "github", "portfolio"],
+      "additionalProperties": false
+    },
+    "professional_summary": { "type": ["string", "null"] },
+    "skills": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "languages": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "work_experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "company": { "type": ["string", "null"] },
+          "designation": { "type": ["string", "null"] },
+          "employment_type": { "type": ["string", "null"] },
+          "location": { "type": ["string", "null"] },
+          "start_date": { "type": ["string", "null"] },
+          "end_date": { "type": ["string", "null"] },
+          "currently_working": { "type": "boolean" },
+          "duration": { "type": ["string", "null"] },
+          "responsibilities": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "company",
+          "designation",
+          "employment_type",
+          "location",
+          "start_date",
+          "end_date",
+          "currently_working",
+          "duration",
+          "responsibilities",
+          "technologies"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "institution": { "type": ["string", "null"] },
+          "degree": { "type": ["string", "null"] },
+          "specialization": { "type": ["string", "null"] },
+          "location": { "type": ["string", "null"] },
+          "start_date": { "type": ["string", "null"] },
+          "end_date": { "type": ["string", "null"] },
+          "currently_studying": { "type": "boolean" },
+          "grade": { "type": ["string", "null"] },
+          "description": { "type": ["string", "null"] }
+        },
+        "required": [
+          "institution",
+          "degree",
+          "specialization",
+          "location",
+          "start_date",
+          "end_date",
+          "currently_studying",
+          "grade",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": ["string", "null"] },
+          "issuing_organization": { "type": ["string", "null"] },
+          "issue_date": { "type": ["string", "null"] },
+          "expiry_date": { "type": ["string", "null"] }
+        },
+        "required": ["name", "issuing_organization", "issue_date", "expiry_date"],
+        "additionalProperties": false
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": ["string", "null"] },
+          "description": { "type": ["string", "null"] },
+          "role": { "type": ["string", "null"] },
+          "start_date": { "type": ["string", "null"] },
+          "end_date": { "type": ["string", "null"] },
+          "highlights": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "url": { "type": ["string", "null"] }
+        },
+        "required": ["name", "description", "role", "start_date", "end_date", "highlights", "technologies", "url"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "personal_information",
+    "contact_information",
+    "professional_summary",
+    "skills",
+    "languages",
+    "work_experience",
+    "education"
+  ],
+  "additionalProperties": false
+}

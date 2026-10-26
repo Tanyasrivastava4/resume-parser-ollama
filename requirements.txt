@@ -1,0 +1,39 @@
+# requirements.txt
+#
+# Python dependencies for the Resume AI Benchmark project.
+#
+# Dependencies are added incrementally as each milestone is implemented,
+# not all at once. Dependencies for the actual model pipelines (an
+# inference client, Docling, a JSON schema validator, etc.) will be added
+# as those pipelines are implemented.
+
+python-dotenv==1.2.2
+
+# Milestone 7: PDF Loader — rasterizes PDF pages to PNG images.
+PyMuPDF==1.28.0
+
+# Milestone 8: Ollama client — talks to the local Ollama server.
+ollama==0.6.2
+httpx==0.28.1
+
+# Milestone 11: Batch Processor — progress bar for multi-document runs.
+tqdm==4.70.0
+
+# Milestone 13.2: Resume Schema Validation.
+jsonschema==4.26.0
+
+# Milestone 15B.5: Page Quality Classifier — pixel statistics for
+# deterministic blank-page detection.
+numpy==2.4.6
+
+# Milestone 17.6: Work Experience Validator — deterministic date parsing
+# for the WEV-002 (computed duration) and WEV-011 (invalid date
+# ordering) rules.
+python-dateutil==2.9.0.post0
+
+# Milestone 22.4: Fast Benchmark Infrastructure — parses
+# configs/benchmark_suites.yaml.
+PyYAML==6.0.3
+
+# Testing
+pytest==8.3.3

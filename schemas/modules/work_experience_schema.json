@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "work_experience_schema.json",
+  "title": "Work Experience Module Schema",
+  "description": "Structure to be produced by the Work Experience Extractor (designed in Milestone 15.1; the extractor itself is not yet implemented) — a single resume-section module, not the full resume schema.",
+  "type": "object",
+  "properties": {
+    "work_experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "company": { "type": ["string", "null"] },
+          "designation": { "type": ["string", "null"] },
+          "employment_type": { "type": ["string", "null"] },
+          "location": { "type": ["string", "null"] },
+          "start_date": { "type": ["string", "null"] },
+          "end_date": { "type": ["string", "null"] },
+          "currently_working": { "type": "boolean" },
+          "duration": { "type": ["string", "null"] },
+          "responsibilities": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "company",
+          "designation",
+          "employment_type",
+          "location",
+          "start_date",
+          "end_date",
+          "currently_working",
+          "duration",
+          "responsibilities",
+          "technologies"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["work_experience"],
+  "additionalProperties": false
+}
